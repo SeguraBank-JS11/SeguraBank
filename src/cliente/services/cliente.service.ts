@@ -62,6 +62,13 @@ export class ClienteService {
 
         return await this.clienteRepository.delete(id);
 
-}
+        
+    }    
 
-}
+    async findByEstadoSaude(estadosaude: string): Promise<Cliente[]> {
+        return await this.clienteRepository.find({
+            where:{
+                estadosaude: ILike(`%${estadosaude}%`)
+            }
+        })
+    }}

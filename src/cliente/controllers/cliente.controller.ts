@@ -11,6 +11,13 @@ findall(): Promise< Cliente[] > {
 return this.clienteService.findAll();
 }
 
+ @Get('/:id')
+  @HttpCode(HttpStatus.OK)
+  findById(@Param('id', ParseIntPipe) id: number): Promise<Cliente> {
+    return this.clienteService.findById(id);
+  }
+
+
 @Post()
 @HttpCode(HttpStatus.CREATED)
   create(@Body() cliente: Cliente): Promise<Cliente> {
@@ -27,5 +34,17 @@ return this.clienteService.findAll();
 @HttpCode(HttpStatus.NO_CONTENT)
   delete(@Param('id', ParseIntPipe) id: number){
     return this.clienteService.delete(id);
+}
+
+@Get('/nome/:nome')
+@HttpCode (HttpStatus.OK)
+findByNome(@Param('nome') nome: string): Promise<Cliente[]>{
+return this.clienteService.findByNome(nome);
+};
+
+@Get('/estadosaude/:estadosaude')
+@HttpCode (HttpStatus.OK)
+findByEstadoSaude(@Param('estadosaude') estadosaude: string): Promise<Cliente[]>{
+return this.clienteService.findByEstadoSaude(estadosaude);
 }
 }
