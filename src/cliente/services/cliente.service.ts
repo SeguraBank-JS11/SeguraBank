@@ -1,7 +1,7 @@
 import { Cliente } from './../entities/cliente.entity';
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ILike, Repository } from "typeorm";
+import { DeleteResult, ILike, Repository } from "typeorm";
 
 
 @Injectable()
@@ -35,7 +35,33 @@ export class ClienteService {
                 nome: ILike(`%${nome}%`)
             }
         })
+
+        
     }
+
+    async create(cliente: Cliente): Promise<Cliente> {
+        return await this.clienteRepository.save(cliente);
+    }
+
+    async update(cliente: Cliente): Promise<Cliente> {
+        
+        let buscaCliente = await this.findById(cliente.id);
+
+        if (!buscaCliente || !cliente.id)
+            throw new HttpException('Cliente não encontrado!', HttpStatus.NOT_FOUND);
+        
+        return await this.clienteRepository.save(cliente);
+    }
+
+    async delete(id: number): Promise<DeleteResult> {
+        
+        let buscaCliente = await this.findById(id);
+
+        if (!buscaCliente)
+            throw new HttpException('Cliente não encontrado!', HttpStatus.NOT_FOUND);
+
+        return await this.clienteRepository.delete(id);
 
 }
 
+}
