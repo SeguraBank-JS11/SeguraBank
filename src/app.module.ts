@@ -18,7 +18,7 @@ import { AppController } from './app.controller';
       port: 3306,
       username: 'root',
       password: 'root',
-      database: 'db_projeto_final_bloco_02',
+      database: 'db_segurabank',
       entities: [Produto, Categoria, Usuario],
       synchronize: true,
     }),
