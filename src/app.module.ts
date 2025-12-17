@@ -1,33 +1,33 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Produto } from './produto/entities/produto.entity';
-import { ProdutoModule } from './produto/produto.module';
-import { CategoriaModule } from './categoria/categoria.module';
-import { Categoria } from './categoria/entities/categoria.entity';
-import { AuthModule } from './auth/auth.module';
-import { Usuario } from './usuario/entities/usuario.entity';
-import { UsuarioModule } from './usuario/usuario.module';
+import { ConfigModule } from '@nestjs/config';
+
 import { AppController } from './app.controller';
 
-// Decorator - Etiqueta de Metadados
+import { ApoliceModule } from './apolice/apolice.module';
+import { CategoriaModule } from './categoria/categoria.module';
+import { UsuarioModule } from './usuario/usuario.module';
+import { AuthModule } from './auth/auth.module';
+
 @Module({
-  imports: [  // Configurando o TypeORM
+  imports: [
+    ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'db_segurabank',
-      entities: [Produto, Categoria, Usuario],
+      host: process.env.DB_HOST,
+      port: Number(process.env.DB_PORT),
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      autoLoadEntities: true,
       synchronize: true,
     }),
-    ProdutoModule,
+    ApoliceModule,
     CategoriaModule,
+    UsuarioModule,
     AuthModule,
-    UsuarioModule
   ],
   controllers: [AppController],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

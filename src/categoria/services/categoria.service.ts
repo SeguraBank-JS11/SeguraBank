@@ -13,7 +13,7 @@ export class CategoriaService {
     async findAll(): Promise<Categoria[]> {
         return await this.categoriaRepository.find({
             relations: {
-                produto: true
+                apolice: true
             }
         });
     }
@@ -25,7 +25,7 @@ export class CategoriaService {
                 id
             },
             relations: {
-                produto: true
+                apolice: true
             }
         });
 
@@ -41,7 +41,7 @@ export class CategoriaService {
                 descricao: ILike(`%${nome}%`)
             },
             relations: {
-                produto: true
+                apolice: true
             }
         })
     }
@@ -52,7 +52,7 @@ export class CategoriaService {
                 descricao: ILike(`%${descricao}%`)
             },
             relations: {
-                produto: true
+                apolice: true
             }
         })
     }
