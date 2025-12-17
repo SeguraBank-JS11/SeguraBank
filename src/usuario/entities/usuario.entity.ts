@@ -22,16 +22,19 @@ export class Usuario {
     @Column({ length: 255, nullable: false })
     senha: string
 
-    @UpdateDateColumn() // Indica que o campo será gerenciado pelo BD
-    data: Date;
+    @IsNotEmpty()
+    @Column({ type: 'date', nullable: false })  
+    dataNascimento: Date;
 
     @Column({ length: 5000 })
     foto: string
 
+    @IsNotEmpty()
+    @Column({ length: 10, nullable: false })
+    tipo: string
+
     // Indica o lado UM do relacionamento, indicando que esse campo se conecta ao campo Usuario da Model Produto
     @OneToMany(() => Apolice, (apolice) => apolice.usuario)
     apolice: Apolice[]
-
-    
 
 }
