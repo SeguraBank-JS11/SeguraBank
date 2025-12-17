@@ -53,7 +53,10 @@ export class ApoliceService {
     async create (apolice: Apolice): Promise <Apolice> {
 
         await this.categoriaService.findById(apolice.categoria.id)
-        const idade = await this.usuarioService.calcularIdade(apolice.usuario.dataNascimento)
+
+        let usuario = await this.usuarioService.findById(apolice.usuario.id)
+
+        const idade = await this.usuarioService.calcularIdade(usuario.dataNascimento)
 
         if (idade < 18)
             throw new HttpException('Não elegível para este tipo de seguro', HttpStatus.NOT_FOUND);

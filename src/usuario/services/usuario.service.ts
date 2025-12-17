@@ -37,19 +37,10 @@ export class UsuarioService {
 
     async calcularIdade(dataNascimento: Date): Promise<number> {
         const hoje = new Date();
-        let idade = hoje.getFullYear()
-        console.log(idade);
-        let x = dataNascimento.getFullYear();
-        // let idade = hoje.getFullYear() - dataNascimento.getFullYear();
+        let nascimento = new Date(dataNascimento)
 
-        // if (
-        // hoje.getMonth() < dataNascimento.getMonth() ||
-        // (hoje.getMonth() === dataNascimento.getMonth() &&
-        //     hoje.getDate() < dataNascimento.getDate())
-        // ) {
-        // idade--;
-        // }
-
+        let idade = hoje.getFullYear() - nascimento.getFullYear();
+        
         return idade;
     }
 
