@@ -3,13 +3,15 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Apolice } from "../entities/apolice.entity";
 import { DeleteResult, ILike, Repository } from "typeorm";
 import { CategoriaService } from "../../categoria/services/categoria.service";
+import { UsuarioService } from "../../usuario/services/usuario.service";
 
 @Injectable()
 export class ApoliceService {
     constructor(
         @InjectRepository(Apolice)
         private apoliceRepository: Repository<Apolice>,
-        private categoriaService: CategoriaService
+        private categoriaService: CategoriaService,
+        private usuarioService: UsuarioService
     ) { }
 
     async findAll(): Promise <Apolice[]> {
@@ -51,6 +53,10 @@ export class ApoliceService {
     async create (apolice: Apolice): Promise <Apolice> {
 
         await this.categoriaService.findById(apolice.categoria.id)
+        const idade = await this.usuarioService.calcularIdade(apolice.usuario.dataNascimento)
+
+        if (idade < 18)
+            throw new HttpException('Não elegível para este tipo de seguro', HttpStatus.NOT_FOUND);
 
         return await this.apoliceRepository.save (apolice);
     }
