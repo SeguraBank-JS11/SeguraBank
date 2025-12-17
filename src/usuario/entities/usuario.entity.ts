@@ -1,6 +1,6 @@
-import { IsEmail, IsNotEmpty, IsNumber, MinLength } from "class-validator"
+import { IsEmail, IsNotEmpty, MinLength } from "class-validator"
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
-import { Produto } from "../../produto/entities/produto.entity"
+import { Apolice } from "../../apolice/entities/apolice.entity"
 
 @Entity({ name: "tb_usuarios" })    // Indicando que a classe é uma Entitidade/Model
 export class Usuario {
@@ -29,7 +29,9 @@ export class Usuario {
     foto: string
 
     // Indica o lado UM do relacionamento, indicando que esse campo se conecta ao campo Usuario da Model Produto
-    @OneToMany(() => Produto, (produto) => produto.usuario)
-    produto: Produto[]
+    @OneToMany(() => Apolice, (apolice) => apolice.usuario)
+    apolice: Apolice[]
+
+    
 
 }
