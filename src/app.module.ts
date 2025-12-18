@@ -14,22 +14,12 @@ import { ProdService } from './data/services/prod.service';
 // Decorator - Etiqueta de Metadados
 @Module({
   imports: [  // Configurando o TypeORM
-<<<<<<< HEAD
+
     ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       useClass: ProdService,
       imports: [ConfigModule],
-=======
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'db_segurabank',
-      entities: [Produto, Categoria, Usuario],
-      synchronize: true,
->>>>>>> 3bec0aa3337d96b0b2fa20db1ff73e8881d93e14
+
     }),
     ApoliceModule,
     CategoriaModule,
