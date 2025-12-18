@@ -10,6 +10,7 @@ import { Apolice } from './apolice/entities/apolice.entity';
 import { ApoliceModule } from './apolice/apolice.module';
 import { ConfigModule } from '@nestjs/config';
 import { ProdService } from './data/services/prod.service';
+import { DevService } from './data/services/dev.service';
 
 // Decorator - Etiqueta de Metadados
 @Module({
