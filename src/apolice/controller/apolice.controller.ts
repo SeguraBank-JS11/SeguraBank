@@ -3,10 +3,12 @@ import { Apolice } from "../entities/apolice.entity";
 import { ApoliceService } from "../services/apolice.service";
 import { DeleteResult } from "typeorm";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @UseGuards(JwtAuthGuard)     // Colocando essa Anotação aqui, indica que todos os endpoints são protegidos
 
-
+@ApiTags('Apolice')
+@ApiBearerAuth()
 @Controller("/apolices")
 export class ApoliceController {
     constructor(private readonly apoliceService: ApoliceService) { }

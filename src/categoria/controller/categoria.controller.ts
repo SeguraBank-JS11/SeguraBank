@@ -2,8 +2,11 @@ import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Par
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 import { Categoria } from "../entities/categoria.entity";
 import { CategoriaService } from "../services/categoria.service";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @UseGuards(JwtAuthGuard)    // Colocando essa Anotação aqui, indica que todos os endpoints são protegidos
+@ApiTags('Categoria')
+@ApiBearerAuth()
 @Controller("/categoria")
 export class CategoriaController {
     constructor(private readonly categoriaService: CategoriaService) { }
