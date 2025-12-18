@@ -1,6 +1,11 @@
 import { Body, Controller, Delete, Get,  HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { Apolice } from "../entities/apolice.entity";
 import { ApoliceService } from "../services/apolice.service";
+import { DeleteResult } from "typeorm";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+
+@UseGuards(JwtAuthGuard)     // Colocando essa Anotação aqui, indica que todos os endpoints são protegidos
+
 
 @Controller("/apolices")
 export class ApoliceController {

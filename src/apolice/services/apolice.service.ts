@@ -18,6 +18,7 @@ export class ApoliceService {
         return await this.apoliceRepository.find({
             relations: {
                 categoria: true,
+                usuario: true
             }
         });
     }
@@ -51,16 +52,23 @@ export class ApoliceService {
     }
 
     async create (apolice: Apolice): Promise <Apolice> {
-
+        
         await this.categoriaService.findById(apolice.categoria.id)
+        
+        //######## PUXANDO O OBJETO apolice.usuario E CONVERTENDO ELE EM NUMBER
+        // console.log(apolice.usuario)
+        const idText = String(apolice.usuario)//Primeiro puxo somente o dado que está em apolice.usuario, ou seja, pego todo o objeto 'apolice' e depois pego o dado no campo 'usuario' (que aqui é somente o id)
+        //Mesmo que apolice.usuario seja somente o id ainda assim ele é puxado como um objeto, por isso precisamos converter o objeto apolice.usuario em String
 
-        let usuario = await this.usuarioService.findById(apolice.usuario.id)
-
-        const idade = await this.usuarioService.calcularIdade(usuario.dataNascimento)
-
+        const idNum = Number(idText); //E aqui convertemos a String em um Number
+        /*Usando apolice.usuario.id estava voltando como vazio por isso precisamos da conversão acima*/
+        let usuario = await this.usuarioService.findById(idNum) //Aqui busco o objeto usuário que quero e faço isso usando o ID convertido que recebi do apolice
+        
+        const idade = await this.usuarioService.calcularIdade(usuario)//Mando o objeto usuario lá para o usuarioService para ver se ele é maior de idade
+        
         if (idade < 18)
             throw new HttpException('Não elegível para este tipo de seguro', HttpStatus.NOT_FOUND);
-
+        
         return await this.apoliceRepository.save (apolice);
     }
 
@@ -69,6 +77,14 @@ export class ApoliceService {
         await this.findById(apolice.id)
 
         await this.categoriaService.findById(apolice.categoria.id)
+
+        const idText = String(apolice.usuario)
+        const idNum = Number(idText);
+        let usuario = await this.usuarioService.findById(idNum)
+        const idade = await this.usuarioService.calcularIdade(usuario)
+        
+        if (idade < 18)
+            throw new HttpException('Não é elegível para este tipo de seguro', HttpStatus.NOT_FOUND);
 
         return await this.apoliceRepository.save(apolice);
     }
