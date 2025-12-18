@@ -8,19 +8,16 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { AppController } from './app.controller';
 import { Apolice } from './apolice/entities/apolice.entity';
 import { ApoliceModule } from './apolice/apolice.module';
+import { ConfigModule } from '@nestjs/config';
+import { ProdService } from './data/services/prod.service';
 
 // Decorator - Etiqueta de Metadados
 @Module({
   imports: [  // Configurando o TypeORM
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'db_segurabank',
-      entities: [Apolice, Categoria, Usuario],
-      synchronize: true,
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRootAsync({
+      useClass: ProdService,
+      imports: [ConfigModule],
     }),
     ApoliceModule,
     CategoriaModule,
