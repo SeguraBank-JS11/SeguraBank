@@ -16,8 +16,8 @@ import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Usuario') // Decorator que indica um título, para agrupar todas as requisições de Usuário
-@Controller('/usuarios')
 @ApiBearerAuth()
+@Controller('/usuarios')
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
