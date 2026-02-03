@@ -35,13 +35,11 @@ export class Apolice {
     @ManyToOne(() => Categoria, (categoria) => categoria.apolice, {
         onDelete: "CASCADE"
     })
-    @ApiProperty()
     categoria: Categoria
 
     @ManyToOne(() => Usuario, (usuario) => usuario.apolice, {
         onDelete: "CASCADE"
     })
-    @ApiProperty()
     usuario: Usuario
     
 }

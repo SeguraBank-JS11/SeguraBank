@@ -23,7 +23,6 @@ export class Categoria {
 
     // Indica o lado UM do relacionamento, indicando que esse campo se conecta ao campo Usuario da Model Produto
     @OneToMany(() => Apolice, (apolice) => apolice.categoria)
-    @ApiProperty()
     apolice: Apolice[]
 
 }
