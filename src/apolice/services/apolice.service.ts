@@ -14,7 +14,7 @@ export class ApoliceService {
         private usuarioService: UsuarioService
     ) { }
 
-    async findAll(): Promise <Apolice[]> {
+    async findAll(): Promise<Apolice[]> {
         return await this.apoliceRepository.find({
             relations: {
                 categoria: true,
@@ -23,7 +23,7 @@ export class ApoliceService {
         });
     }
 
-    async findById(id: number): Promise <Apolice> {
+    async findById(id: number): Promise<Apolice> {
 
         const apolice= await this.apoliceRepository.findOne({
             where: {
@@ -40,7 +40,7 @@ export class ApoliceService {
         return apolice;
     }
 
-    async FindByTitulo(titulo: string): Promise <Apolice[]> {
+    async FindByTitulo(titulo: string): Promise<Apolice[]> {
         return await this.apoliceRepository.find({
             where: {
                 titulo: ILike(`%${titulo}%`)
@@ -51,18 +51,11 @@ export class ApoliceService {
         })
     }
 
-    async create (apolice: Apolice): Promise <Apolice> {
+    async create(apolice: Apolice): Promise<Apolice> {
         
         await this.categoriaService.findById(apolice.categoria.id)
-        
-        //######## PUXANDO O OBJETO apolice.usuario E CONVERTENDO ELE EM NUMBER
-        // console.log(apolice.usuario)
-        const idText = String(apolice.usuario)//Primeiro puxo somente o dado que está em apolice.usuario, ou seja, pego todo o objeto 'apolice' e depois pego o dado no campo 'usuario' (que aqui é somente o id)
-        //Mesmo que apolice.usuario seja somente o id ainda assim ele é puxado como um objeto, por isso precisamos converter o objeto apolice.usuario em String
 
-        const idNum = Number(idText); //E aqui convertemos a String em um Number
-        /*Usando apolice.usuario.id estava voltando como vazio por isso precisamos da conversão acima*/
-        let usuario = await this.usuarioService.findById(idNum) //Aqui busco o objeto usuário que quero e faço isso usando o ID convertido que recebi do apolice
+        let usuario = await this.usuarioService.findById(apolice.usuario.id) //Aqui busco o objeto usuário que quero e faço isso usando o ID onvertido que recebi do apolice
         
         const idade = await this.usuarioService.calcularIdade(usuario)//Mando o objeto usuario lá para o usuarioService para ver se ele é maior de idade
         
@@ -72,15 +65,13 @@ export class ApoliceService {
         return await this.apoliceRepository.save (apolice);
     }
 
-    async update (apolice: Apolice): Promise <Apolice> {
+    async update(apolice:Apolice): Promise<Apolice> {
 
         await this.findById(apolice.id)
 
         await this.categoriaService.findById(apolice.categoria.id)
 
-        const idText = String(apolice.usuario)
-        const idNum = Number(idText);
-        let usuario = await this.usuarioService.findById(idNum)
+        let usuario = await this.usuarioService.findById(apolice.usuario.id)
         const idade = await this.usuarioService.calcularIdade(usuario)
         
         if (idade < 18)
@@ -89,7 +80,7 @@ export class ApoliceService {
         return await this.apoliceRepository.save(apolice);
     }
 
-    async delete (id: number): Promise <DeleteResult>{
+    async delete(id: number): Promise<DeleteResult>{
 
         await this.findById(id)
 
